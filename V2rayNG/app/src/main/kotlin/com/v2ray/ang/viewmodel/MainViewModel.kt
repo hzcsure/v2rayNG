@@ -360,6 +360,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     updateListAction.value = getPosition(resultPair.first)
                     testCount = testCount + 1
                      if (testCount == testCountSize){
+                         MmkvManager.sortByTestResults()
+                         reloadServerList()
                          getApplication<AngApplication>().toast(R.string.toast_services_success)
                      }
                     
