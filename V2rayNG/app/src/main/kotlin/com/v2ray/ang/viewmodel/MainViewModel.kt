@@ -72,7 +72,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val updateTestResultAction by lazy { MutableLiveData<String>() }
 
     private val tcpingTestScope by lazy { CoroutineScope(Dispatchers.IO) }
-
+    var testCount : Int = 0
+    var liveCount : Int = 0
+    var testCountSize: Int = 0
     fun startListenBroadcast() {
         isRunning.value = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -181,11 +183,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun testAllRealPing() {
+        testCount = 0
+        liveCount = 0
         MessageUtil.sendMsg2TestService(getApplication(), AppConfig.MSG_MEASURE_CONFIG_CANCEL, "")
         MmkvManager.clearAllTestDelayResults(serversCache.map { it.guid }.toList())
         updateListAction.value = -1 // update all
 
         val serversCopy = serversCache.toList() // Create a copy of the list
+        testCountSize = serversCopy.size
 
         getApplication<AngApplication>().toast(R.string.connection_test_testing)
         viewModelScope.launch(Dispatchers.Default) { // without Dispatchers.Default viewModelScope will launch in main thread
@@ -353,6 +358,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     val resultPair = intent.getSerializableExtra("content") as Pair<String, Long>
                     MmkvManager.encodeServerTestDelayMillis(resultPair.first, resultPair.second)
                     updateListAction.value = getPosition(resultPair.first)
+                    testCount = testCount + 1
+                     if (testCount == testCountSize){
+                         getApplication<AngApplication>().toast(R.string.toast_services_success)
+                     }
+                    
                 }
             }
         }
