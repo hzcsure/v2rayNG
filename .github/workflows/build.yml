@@ -50,9 +50,13 @@ jobs:
         cd ${{ github.workspace }}/V2rayNG
         chmod 755 gradlew
         ./gradlew assembleDebug
-
+        
+    - name: List APK files
+      run: |
+        find ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/ -type f -exec du -h {} \;
+        
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: apk
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/release/v2rayNG_1.8.26_arm*signed.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/debug/v2rayNG_1.8.26_arm*signed.apk
