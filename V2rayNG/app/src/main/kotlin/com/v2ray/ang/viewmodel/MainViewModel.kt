@@ -427,13 +427,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                      if (testCount == testCountSize){
                          MmkvManager.sortByTestResults()
                          reloadServerList()
-                         if (liveCount > 3){
+                         if (liveCount > 4 && testCountSize > 25 ){
                              MmkvManager.removeInvalidServer()
                              reloadServerList()
                          }
+
                          MmkvManager.setFirstKey(0)
-                        V2RayServiceManager.startV2Ray(getApplication<AngApplication>())
-                        isRunning.value = true
+                        if (isRunning.value == true) {
+                             MessageUtil.sendMsg2Service(getApplication<AngApplication>(), AppConfig.MSG_STATE_STOP, "")
+                             isRunning.value = false
+                        }
+                        Observable.timer(500, TimeUnit.MILLISECONDS)
+                       .observeOn(AndroidSchedulers.mainThread())
+                       .subscribe {
+                            V2RayServiceManager.startV2Ray(getApplication<AngApplication>())
+                            isRunning.value = true
+                       }
+
                      }
                     
                 }
