@@ -350,7 +350,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 AppConfig.MSG_STATE_START_FAILURE -> {
-                    getApplication<AngApplication>().toast(R.string.toast_services_failure)
+                   // getApplication<AngApplication>().toast(R.string.toast_services_failure)
                     isRunning.value = false
                 }
 
@@ -369,7 +369,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    // mainStorage?.encode("updateFlag","true")
                    val updateFlag = mainStorage?.decodeString("updateFlag")?:""
                    if (updateFlag == "true"){
+                   viewModelScope.launch(Dispatchers.Default) {
                      val count = AngConfigManager.updateConfigViaSubAll()
+                    }
                      testAllRealPing()
                      mainStorage?.encode("updateFlag","false")
                    }else {
