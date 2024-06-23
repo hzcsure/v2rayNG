@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Collections
+import com.v2ray.ang.service.V2RayServiceManager
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val mainStorage by lazy {
@@ -359,9 +360,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     MmkvManager.encodeServerTestDelayMillis(resultPair.first, resultPair.second)
                     updateListAction.value = getPosition(resultPair.first)
                     testCount = testCount + 1
+                    if (resultPair.second > 0 ) {
+                        liveCount = liveCount + 1
+                    }
                      if (testCount == testCountSize){
                          MmkvManager.sortByTestResults()
                          reloadServerList()
+                         if (liveCount > 3){
+                             MmkvManager.removeInvalidServer()
+                             reloadServerList()
+                         }
+                         MmkvManager.setFirstKey(0)
+                        V2RayServiceManager.startV2Ray(getApplication<AngApplication>())
+                        isRunning.value = true
                          getApplication<AngApplication>().toast(R.string.toast_services_success)
                      }
                     
