@@ -200,7 +200,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val serversCopy = serversCache.toList() // Create a copy of the list
         testCountSize = serversCopy.size
 
-        getApplication<AngApplication>().toast(R.string.connection_test_testing)
+       // getApplication<AngApplication>().toast(R.string.connection_test_testing)
         viewModelScope.launch(Dispatchers.Default) { // without Dispatchers.Default viewModelScope will launch in main thread
             for (item in serversCopy) {
                 val config = V2rayConfigUtil.getV2rayConfig(getApplication(), item.guid)
@@ -372,8 +372,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                      val count = AngConfigManager.updateConfigViaSubAll()
                      testAllRealPing()
                      mainStorage?.encode("updateFlag","false")
-                    }
+                   }else {
                     testAllRealPing()
+                   }
                 }
                 AppConfig.MSG_MEASURE_CONFIG_SUCCESS -> {
                     val resultPair = intent.getSerializableExtra("content") as Pair<String, Long>
