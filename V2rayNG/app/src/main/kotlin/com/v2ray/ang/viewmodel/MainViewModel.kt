@@ -369,12 +369,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    // mainStorage?.encode("updateFlag","true")
                    val updateFlag = mainStorage?.decodeString("updateFlag")?:""
                    if (updateFlag == "true"){
-                   viewModelScope.launch(Dispatchers.Default) {
-                     val count = AngConfigManager.updateConfigViaSubAll()
-                     reloadServerList()
-                    }
-                     testAllRealPing()
-                     mainStorage?.encode("updateFlag","false")
+                       viewModelScope.launch(Dispatchers.Default) {
+                           val count = AngConfigManager.updateConfigViaSubAll()
+                       }
+                      Observable.timer(2000, TimeUnit.MILLISECONDS)
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribe {
+                            reloadServerList()
+                            testAllRealPing()
+                            mainStorage?.encode("updateFlag","false")
+                       }
+
                    }else {
                     testAllRealPing()
                    }
