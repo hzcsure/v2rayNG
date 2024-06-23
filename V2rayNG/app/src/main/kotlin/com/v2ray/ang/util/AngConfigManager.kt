@@ -569,7 +569,7 @@ object AngConfigManager {
             if (configText.isEmpty()) {
                 return 0
             }
-            return parseConfigViaSub(configText, it.first, false)
+            return parseConfigViaSub(configText, it.first, true)
         } catch (e: Exception) {
             e.printStackTrace()
             return 0
