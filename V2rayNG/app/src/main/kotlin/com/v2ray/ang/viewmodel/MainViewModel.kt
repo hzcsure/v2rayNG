@@ -42,6 +42,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.Collections
 import com.v2ray.ang.service.V2RayServiceManager
+import rx.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 import rx.Observable
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
