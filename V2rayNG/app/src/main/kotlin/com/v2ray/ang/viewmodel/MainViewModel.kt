@@ -46,6 +46,7 @@ import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import rx.Observable
 import com.v2ray.ang.util.AngConfigManager
+import kotlinx.coroutines.delay
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val mainStorage by lazy {
@@ -372,6 +373,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                        viewModelScope.launch(Dispatchers.Default) {
                            val count = AngConfigManager.updateConfigViaSubAll()
                        }
+                      delay(500L)
                       Observable.timer(2000, TimeUnit.MILLISECONDS)
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribe {
