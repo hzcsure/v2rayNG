@@ -371,6 +371,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    if (updateFlag == "true"){
                    viewModelScope.launch(Dispatchers.Default) {
                      val count = AngConfigManager.updateConfigViaSubAll()
+                     reloadServerList()
                     }
                      testAllRealPing()
                      mainStorage?.encode("updateFlag","false")
