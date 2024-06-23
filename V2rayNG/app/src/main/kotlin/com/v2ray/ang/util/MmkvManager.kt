@@ -25,6 +25,17 @@ object MmkvManager {
     private val subStorage by lazy { MMKV.mmkvWithID(ID_SUB, MMKV.MULTI_PROCESS_MODE) }
     private val assetStorage by lazy { MMKV.mmkvWithID(ID_ASSET, MMKV.MULTI_PROCESS_MODE) }
 
+    /**
+    by hzc
+    */
+    fun setFirstKey(index:Int = 0 ){
+        val serverList = decodeServerList()
+        val orderNum =  index + 1
+        if (serverList.size  > orderNum ) {
+            mainStorage?.encode(KEY_SELECTED_SERVER, serverList[index])
+        }
+    } 
+    
     fun decodeServerList(): MutableList<String> {
         val json = mainStorage?.decodeString(KEY_ANG_CONFIGS)
         return if (json.isNullOrBlank()) {
