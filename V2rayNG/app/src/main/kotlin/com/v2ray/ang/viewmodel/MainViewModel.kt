@@ -345,7 +345,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 AppConfig.MSG_STATE_START_SUCCESS -> {
-                    getApplication<AngApplication>().toast(R.string.toast_services_success)
+                    //getApplication<AngApplication>().toast(R.string.toast_services_success)
                     isRunning.value = true
                 }
 
@@ -401,7 +401,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                        .observeOn(AndroidSchedulers.mainThread())
                        .subscribe {
                             V2RayServiceManager.startV2Ray(getApplication<AngApplication>())
-                            isRunning.value = true
                        }
 
                      }
