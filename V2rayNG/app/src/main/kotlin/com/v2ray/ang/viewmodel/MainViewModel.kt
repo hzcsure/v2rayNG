@@ -45,6 +45,7 @@ import com.v2ray.ang.service.V2RayServiceManager
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import rx.Observable
+import com.v2ray.ang.util.AngConfigManager
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val mainStorage by lazy {
@@ -188,6 +189,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun testAllRealPing() {
+        removeDuplicateServer()
+        reloadServerList()
         testCount = 0
         liveCount = 0
         MessageUtil.sendMsg2TestService(getApplication(), AppConfig.MSG_MEASURE_CONFIG_CANCEL, "")
@@ -296,12 +299,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         for (it in deleteServer) {
             MmkvManager.removeServer(it)
         }
-        getApplication<AngApplication>().toast(
-            getApplication<AngApplication>().getString(
-                R.string.title_del_duplicate_config_count,
-                deleteServer.count()
-            )
-        )
+        // getApplication<AngApplication>().toast(
+        //     getApplication<AngApplication>().getString(
+        //         R.string.title_del_duplicate_config_count,
+        //         deleteServer.count()
+        //     )
+        // )
     }
 
     fun copyAssets(assets: AssetManager) {
@@ -366,7 +369,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    // mainStorage?.encode("updateFlag","true")
                    val updateFlag = mainStorage?.decodeString("updateFlag")?:""
                    if (updateFlag == "true"){
-                     
+                     val count = AngConfigManager.updateConfigViaSubAll()
                      testAllRealPing()
                      mainStorage?.encode("updateFlag","false")
                     }
