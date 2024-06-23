@@ -190,6 +190,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun testAllRealPing() {
+        reloadServerList()
         removeDuplicateServer()
         reloadServerList()
         testCount = 0
@@ -370,16 +371,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    // mainStorage?.encode("updateFlag","true")
                    val updateFlag = mainStorage?.decodeString("updateFlag")?:""
                    if (updateFlag == "true"){
+                       mainStorage?.encode("updateFlag","false")
                        viewModelScope.launch(Dispatchers.Default) {
                            val count = AngConfigManager.updateConfigViaSubAll()
-                           delay(500L)
-                       }
-                      Observable.timer(2000, TimeUnit.MILLISECONDS)
-                      .observeOn(AndroidSchedulers.mainThread())
-                      .subscribe {
-                            reloadServerList()
-                            testAllRealPing()
-                            mainStorage?.encode("updateFlag","false")
+                           delay(2000L)
+                           MessageUtil.sendMsg2UI(getApplication(), 111, "")
                        }
 
                    }else {
