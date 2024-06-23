@@ -407,7 +407,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 AppConfig.MSG_MEASURE_DELAY_SUCCESS -> {
                     updateTestResultAction.value = intent.getStringExtra("content")
                 }
-
+                111 -> {
+                   // mainStorage?.encode("updateFlag","true")
+                   val updateFlag = mainStorage?.decodeString("updateFlag")?:""
+                   if (updateFlag == "true"){
+                     testAllRealPing()
+                     mainStorage?.encode("updateFlag","false")
+                    }
+                    testAllRealPing()
+                }
                 AppConfig.MSG_MEASURE_CONFIG_SUCCESS -> {
                     val resultPair = intent.getSerializableExtra("content") as Pair<String, Long>
                     MmkvManager.encodeServerTestDelayMillis(resultPair.first, resultPair.second)
@@ -426,7 +434,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                          MmkvManager.setFirstKey(0)
                         V2RayServiceManager.startV2Ray(getApplication<AngApplication>())
                         isRunning.value = true
-                         getApplication<AngApplication>().toast(R.string.toast_services_success)
                      }
                     
                 }
