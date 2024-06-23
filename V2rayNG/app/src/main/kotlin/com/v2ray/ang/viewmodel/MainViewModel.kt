@@ -76,6 +76,59 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var testCount : Int = 0
     var liveCount : Int = 0
     var testCountSize: Int = 0
+   /**
+     * import config from sub by hzc
+     */
+    fun importConfigViaSubHzc()
+            : Boolean {
+        try {
+            //toast(R.string.title_sub_update)
+            MmkvManager.decodeSubscriptions().forEach {
+                if (TextUtils.isEmpty(it.first)
+                        || TextUtils.isEmpty(it.second.remarks)
+                        || TextUtils.isEmpty(it.second.url)
+                ) {
+                    return@forEach
+                }
+                if (!it.second.enabled) {
+                    return@forEach
+                }
+                val url = Utils.idnToASCII(it.second.url)
+                if (!Utils.isValidUrl(url)) {
+                    return@forEach
+                }
+                Log.d(ANG_PACKAGE, url)
+                viewModelScope.launch(Dispatchers.Default) {
+                    val configText = try {
+                        Utils.getUrlContentWithCustomUserAgent(url)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        return@launch
+                    }
+                    launch(Dispatchers.Main) {
+                        var count = AngConfigManager.importBatchConfig(configText, "", false)
+                        if (count <= 0) {
+                            count = AngConfigManager.importBatchConfig(Utils.decode(configText!!), "", false)
+                        }
+                        if (count > 0) {
+                            Log.d(ANG_PACKAGE,"success")
+                            reloadServerList()
+                            removeDuplicateServer()
+                            Log.d(ANG_PACKAGE,"in importConfigViaSubHzc")
+                            MessageUtil.sendMsg2UI(getApplication(), 112, "")
+                        } else {
+                           Log.d(ANG_PACKAGE,"failure")
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+        return true
+    }
+ 
     fun startListenBroadcast() {
         isRunning.value = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
