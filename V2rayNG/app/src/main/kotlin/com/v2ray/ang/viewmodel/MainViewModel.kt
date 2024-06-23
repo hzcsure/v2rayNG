@@ -372,8 +372,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    if (updateFlag == "true"){
                        viewModelScope.launch(Dispatchers.Default) {
                            val count = AngConfigManager.updateConfigViaSubAll()
+                           delay(500L)
                        }
-                      delay(500L)
                       Observable.timer(2000, TimeUnit.MILLISECONDS)
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribe {
