@@ -358,10 +358,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 AppConfig.MSG_MEASURE_DELAY_SUCCESS -> {
                     updateTestResultAction.value = intent.getStringExtra("content")
                 }
+                110 -> {
+                   mainStorage?.encode("updateFlag","true")
+                }
+                
                 111 -> {
                    // mainStorage?.encode("updateFlag","true")
                    val updateFlag = mainStorage?.decodeString("updateFlag")?:""
                    if (updateFlag == "true"){
+                     
                      testAllRealPing()
                      mainStorage?.encode("updateFlag","false")
                     }
