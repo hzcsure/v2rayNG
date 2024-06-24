@@ -375,7 +375,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                        mainStorage?.encode("updateFlag","false")
                        viewModelScope.launch(Dispatchers.Default) {
                            val count = AngConfigManager.updateConfigViaSubAll()
-                           delay(2000L)
+                           delay(4000L)
                            MessageUtil.sendMsg2UI(getApplication(), 111, "")
                        }
 
