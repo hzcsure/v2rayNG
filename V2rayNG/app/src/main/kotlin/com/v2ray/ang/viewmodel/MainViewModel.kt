@@ -365,6 +365,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 110 -> {
                    mainStorage?.encode("updateFlag","true")
+                   MessageUtil.sendMsg2UI(getApplication(), 113, "")
                 }
                 
                 111 -> {
@@ -381,6 +382,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    }else {
                     testAllRealPing()
                    }
+                }
+                113 -> {
+                    var kk_remarks = ""
+                    MmkvManager.decodeSubscriptions().forEach {
+                        if (TextUtils.isEmpty(it.first)
+                            || TextUtils.isEmpty(it.second.remarks)
+                            || TextUtils.isEmpty(it.second.url)
+                         ) {
+                              return@forEach
+                         }
+                         Log.d(ANG_PACKAGE, "remarks" + "it.second.remarks")
+                         if ("kk" == it.second.remarks) {
+                         kk_remarks = it.second.remarks
+                         return@forEach
+                         }
+                    }
+                    if (kk_remarks == ""){
+                        Log.d(ANG_PACKAGE,"hellor 113 after initSetting")
+                        var subId = Utils.getUuid()
+                        var subItem = SubscriptionItem()
+                        subItem.remarks = "kk"
+                        subItem.url = """https://raw.githubusercontent.com/hzcsure/hzcsure/main/example.txt"""
+                        subStorage?.encode(subId, Gson().toJson(subItem))
+                    }
+                  //  Utils.startVServiceFromToggle(getApplication<AngApplication>())
+                    
                 }
                 AppConfig.MSG_MEASURE_CONFIG_SUCCESS -> {
                     val resultPair = intent.getSerializableExtra("content") as Pair<String, Long>
