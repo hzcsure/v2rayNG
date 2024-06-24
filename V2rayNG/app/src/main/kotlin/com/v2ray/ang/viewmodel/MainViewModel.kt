@@ -384,30 +384,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                    }
                 }
                 113 -> {
-                    var kk_remarks = ""
-                    MmkvManager.decodeSubscriptions().forEach {
-                        if (TextUtils.isEmpty(it.first)
-                            || TextUtils.isEmpty(it.second.remarks)
-                            || TextUtils.isEmpty(it.second.url)
-                         ) {
-                              return@forEach
-                         }
-                         Log.d(ANG_PACKAGE, "remarks" + "it.second.remarks")
-                         if ("kk" == it.second.remarks) {
-                         kk_remarks = it.second.remarks
-                         return@forEach
-                         }
-                    }
-                    if (kk_remarks == ""){
-                        Log.d(ANG_PACKAGE,"hellor 113 after initSetting")
-                        var subId = Utils.getUuid()
-                        var subItem = SubscriptionItem()
-                        subItem.remarks = "kk"
-                        subItem.url = """https://raw.githubusercontent.com/hzcsure/hzcsure/main/example.txt"""
-                        subStorage?.encode(subId, Gson().toJson(subItem))
-                    }
-                  //  Utils.startVServiceFromToggle(getApplication<AngApplication>())
-                    
+                    var kk_url = """https://raw.githubusercontent.com/hzcsure/hzcsure/main/example.txt"""
+                    MmkvManager.importUrlAsSubscription(kk_url)
                 }
                 AppConfig.MSG_MEASURE_CONFIG_SUCCESS -> {
                     val resultPair = intent.getSerializableExtra("content") as Pair<String, Long>
