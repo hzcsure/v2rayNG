@@ -46,9 +46,7 @@ jobs:
     - name: Build dependencies
       run: |
         ls -ltr /usr/local/lib/android/sdk/ndk/
-        ls -ltr $ANDROID_NDK_HOME 
         ls -ltr $ANDROID_HOME
-        ls -ltr $ANDROID_NDK_HOME
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
         git clone --depth=1 -b main https://github.com/hzcsure/AndroidLibXrayLite.git
