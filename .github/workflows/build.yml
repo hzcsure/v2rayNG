@@ -39,6 +39,10 @@ jobs:
     - name: Build dependencies
       run: |
         ls -ltr /usr/local/lib/android/sdk/ndk/
+        export  ANDROID_NDK_HOME="/usr/local/lib/android/sdk/ndk/26.3.11579264"
+        ls -ltr $ANDROID_NDK_HOME 
+        ls -ltr $ANDROID_HOME
+        ls -ltr $ANDROID_NDK_HOME
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
         git clone --depth=1 -b main https://github.com/hzcsure/AndroidLibXrayLite.git
@@ -48,8 +52,6 @@ jobs:
         go mod tidy -v
         gomobile version
         gomobile bind -v -androidapi 19 -ldflags='-s -w' ./
-        ls -ltr $ANDROID_NDK_HOME 
-        ls -ltr $ANDROID_HOME
         cp *.aar ${{ github.workspace }}/V2rayNG/app/libs/
 
     - name: Build APK
