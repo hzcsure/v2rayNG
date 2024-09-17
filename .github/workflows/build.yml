@@ -12,6 +12,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: beforjava
+      run: |
+        ls -ltr /usr/local/lib/android/sdk/ndk/
+
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
