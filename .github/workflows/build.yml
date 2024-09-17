@@ -42,7 +42,10 @@ jobs:
         go get github.com/xtls/xray-core@${{ github.event.inputs.XRAY_CORE_VERSION }} || true
         gomobile init
         go mod tidy -v
-        gomobile bind -v -androidapi 21 -ldflags='-s -w' ./
+        gomobile version
+        gomobile bind -v -androidapi 19 -ldflags='-s -w' ./
+        ls -ltr $ANDROID_NDK_HOME 
+        ls -ltr $ANDROID_HOME
         cp *.aar ${{ github.workspace }}/V2rayNG/app/libs/
 
     - name: Build APK
