@@ -38,9 +38,7 @@ jobs:
 
 
     - name: Setup Android environment
-      uses: android-actions/setup-android@v3
-      with:
-        cmdline-tools-version: 10406996
+      uses: android-actions/setup-android@v2
 
 
     - name: Build dependencies
