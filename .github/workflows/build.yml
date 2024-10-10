@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
@@ -27,6 +27,7 @@ jobs:
       run: |
         go install golang.org/x/mobile/cmd/gomobile@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+        
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
 
@@ -40,7 +41,7 @@ jobs:
         go get github.com/xtls/xray-core@${{ github.event.inputs.XRAY_CORE_VERSION }} || true
         gomobile init
         go mod tidy -v
-        gomobile bind -target=android -androidapi 19 -ldflags='-s -w' ./
+        gomobile bind -v -androidapi 19 -ldflags='-s -w' ./
         cp *.aar ${{ github.workspace }}/V2rayNG/app/libs/
 
     - name: Build APK
