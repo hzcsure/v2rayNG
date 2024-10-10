@@ -36,10 +36,11 @@ jobs:
       uses: nttld/setup-ndk@v1
       with:
         ndk-version: r21e
-        link-to-sdk: true
+        link-to-sdk: false
 
     - name: Build dependencies
       run: |
+        ls -ltr /usr/local/lib/android/sdk/ndk/
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
         git clone --depth=1 -b main https://github.com/hzcsure/AndroidLibXrayLite.git
