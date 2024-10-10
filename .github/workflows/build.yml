@@ -32,11 +32,14 @@ jobs:
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
 
+    - name: setup-ndk
+      uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r26d
+        link-to-sdk: true
 
     - name: Build dependencies
       run: |
-        export  ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/26.3.11579264
-        export PATH=$PATH:$ANDROID_NDK_HOME
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
         git clone --depth=1 -b main https://github.com/hzcsure/AndroidLibXrayLite.git
