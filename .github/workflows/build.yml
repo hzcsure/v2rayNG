@@ -12,12 +12,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: beforjava
-      run: |
-        ls -ltr /usr/local/lib/android/sdk/ndk/
-        rm -rf /usr/local/lib/android/sdk/ndk/27.1.12297006/
-        rm -rf /usr/local/lib/android/sdk/ndk/26.3.11579264/
-
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
