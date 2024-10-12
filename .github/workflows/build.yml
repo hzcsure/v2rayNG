@@ -27,6 +27,8 @@ jobs:
       run: |
         go install golang.org/x/mobile/cmd/gomobile@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+        go version -m $(which gomobile)
+        echo $PATH
         ls -ltr /usr/local/lib/android/sdk/ndk/
         
     - name: Setup Android environment
