@@ -35,11 +35,11 @@ jobs:
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
 
-    - name: setup-ndk
+    - name: Install NDK
       uses: nttld/setup-ndk@v1
       with:
         ndk-version: r21e
-        link-to-sdk: false
+        link-to-sdk: true
 
     - name: Build dependencies
       run: |
