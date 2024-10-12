@@ -57,7 +57,7 @@ jobs:
       run: |
         cd ${{ github.workspace }}/V2rayNG
         chmod 755 gradlew
-        ./gradlew compileDebugSources --stacktrace -info
+        ./gradlew compileDebugSources --stacktrace -debug
         ./gradlew assembleDebug
         
     - name: List APK files
