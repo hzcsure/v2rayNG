@@ -42,6 +42,7 @@ jobs:
 
     - name: Build dependencies
       run: |
+        ls -ltr $ANDROID_NDK_HOME
         ls -ltr /usr/local/lib/android/sdk/ndk/
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
