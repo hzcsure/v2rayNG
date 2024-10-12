@@ -28,8 +28,6 @@ jobs:
         go install golang.org/x/mobile/cmd/gomobile@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
         go version -m $(which gomobile)
-        echo $PATH
-        ls -ltr /usr/local/lib/android/sdk/ndk/
         
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
@@ -42,8 +40,9 @@ jobs:
 
     - name: Build dependencies
       run: |
-        ls -ltr $ANDROID_NDK_HOME
-        ls -ltr /usr/local/lib/android/sdk/ndk/
+        export ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/21.4.7075529
+        export PATH=$PATH:$ANDROID_NDK_HOME
+        echo $PATH
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
         git clone --depth=1 -b main https://github.com/hzcsure/AndroidLibXrayLite.git
