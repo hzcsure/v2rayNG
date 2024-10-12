@@ -11,10 +11,6 @@ android {
         applicationId = "com.v2ray.ang"
         minSdk = 21
         targetSdk = 34
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a","x86","x86_64"
-            version "21.3.6528147"
-        }
         versionCode = 565
         versionName = "1.8.26"
         multiDexEnabled = true
